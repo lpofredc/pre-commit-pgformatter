@@ -1,0 +1,14 @@
+fail_fast: true
+
+repos:
+  - repo: https://github.com/lpofredc/pre-commit-pgformatter
+    rev: 0.0.0 # Use the sha / tag you want to point at
+    hooks:
+      - id: pg_format
+        args: [-b,-f1,-C,-U2,-k,-g,-w80]
+
+# sets up .pre-commit-ci.yaml to ensure pre-commit dependencies stay up to date
+ci:
+    autoupdate_schedule: weekly
+    skip: []
+    submodules: false

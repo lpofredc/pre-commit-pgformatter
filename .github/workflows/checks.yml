@@ -1,0 +1,38 @@
+# This workflow will install Python dependencies, run tests and lint with a variety of Python versions
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-python
+
+name: "📝 Check and tests"
+
+on:
+  push:
+    # branches: [ $default-branch ]
+    branches: [ 'dev','$default-branch' ]
+  pull_request:
+    branches: [ $default-branch ]
+
+jobs:
+  check-syntax-lints-type:
+
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.8", "3.9", "3.10", "3.11"]
+
+    steps:
+    #-----------------------------------------------
+    #  -----  checkout repo and set-up python  -----
+    #-----------------------------------------------    
+    - uses: actions/checkout@v4
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v5
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: Install dependencies
+      run: |
+        pip install pre-commit
+    #------------------------------
+    #------ run pre-commit  -------
+    #------------------------------
+    - name: Check usage of pre-commit
+      run: pre-commit run -a --verbose
